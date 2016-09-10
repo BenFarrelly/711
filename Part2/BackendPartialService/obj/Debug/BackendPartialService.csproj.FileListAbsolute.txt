@@ -1,0 +1,7 @@
+C:\711\WcfService1\obj\Debug\BackendPartialService.csprojResolveAssemblyReference.cache
+C:\711\Part2\BackendPartialService\bin\BackendPartialService.dll.config
+C:\711\Part2\BackendPartialService\bin\BackendPartialService.dll
+C:\711\Part2\BackendPartialService\bin\BackendPartialService.pdb
+C:\711\Part2\BackendPartialService\obj\Debug\BackendPartialService.dll
+C:\711\Part2\BackendPartialService\obj\Debug\BackendPartialService.pdb
+C:\711\Part2\BackendPartialService\obj\Debug\BackendPartialService.csprojResolveAssemblyReference.cache

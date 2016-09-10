@@ -1,0 +1,17 @@
+User request, File:hello.txt at 9/5/2016 11:38:53 AM
+Response: downloaded file:hello.txt
+User request, File:hello.txt at 9/5/2016 11:44:04 AM
+User request, File:hello.txt at 9/5/2016 11:46:56 AM
+Response: sent cached file:hello.txt
+User request, File:test.txt at 9/5/2016 12:21:16 PM
+Response: downloaded file:test.txt
+User request, File:test.txt at 9/5/2016 12:24:30 PM
+Response: sent cached file:test.txt
+User request, File:hello.txt at 9/5/2016 12:24:54 PM
+Response: downloaded file:hello.txt
+User request, File:test.txt at 9/5/2016 12:25:08 PM
+Response: downloaded file:test.txt
+User request, File:test.txt at 9/6/2016 1:46:07 PM
+Response: sent cached file:test.txt
+User request, File:test.txt at 9/6/2016 1:46:45 PM
+Response: downloaded file:test.txt
