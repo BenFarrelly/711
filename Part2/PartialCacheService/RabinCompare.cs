@@ -10,7 +10,7 @@ namespace PartialCacheService
     public static class RabinCompare
     {
 
-        public static List<Chunk> Compare(string file1, string file2, ulong boundary)
+        public static Chunk Compare(string file1, string file2, ulong boundary)
         {
             //file2 server file
             //file1 cache file
@@ -39,14 +39,14 @@ namespace PartialCacheService
             //Console.WriteLine("\n--------MATCHED CHUNKS--------\n");
             int matchCount = 0;
             //need to create list of byte[] and chunks
-            List<Chunk> chunks = new List<Chunk>();
+            Dictionary<int, byte[]> chunks = new Dictionary<int, byte[]>();
             foreach (byte[] s in listA)
             {
                 if (ContainsSequence(listB, s) >= 0)
                 {
                     //Console.WriteLine("{0:D4}<-->{1:D4}  (size:{2:D8} bytes)", i, ContainsSequence(listB, s), s.Length);
-                    Chunk temp = new PartialCacheService.Chunk(listB[ContainsSequence(listB, s)], i);
-                    chunks.Add(temp);
+                    
+                    chunks.Add(i, listB[ContainsSequence(listB, s)]);
                     matchCount++;
                 }
                 else
@@ -54,7 +54,7 @@ namespace PartialCacheService
                     i++;
             }
 
-            return chunks;
+            return new Chunk(chunks);
             //Console.WriteLine("\n------------------------------\n");
             //Console.WriteLine("Matched blockes {0} (out of {1})", matchCount, listA.Count);
             //Console.WriteLine("Time used to process file '{0}'\t:{1:f3} (sec)", new FileInfo(file1).Name, timeA / 1000.0);

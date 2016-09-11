@@ -4,3 +4,9 @@ C:\711\Part2\PartialCacheService\bin\PartialCacheService.pdb
 C:\711\Part2\PartialCacheService\obj\Debug\PartialCacheService.csprojResolveAssemblyReference.cache
 C:\711\Part2\PartialCacheService\obj\Debug\PartialCacheService.dll
 C:\711\Part2\PartialCacheService\obj\Debug\PartialCacheService.pdb
+C:\usertmp\711\Part2\PartialCacheService\bin\PartialCacheService.dll.config
+C:\usertmp\711\Part2\PartialCacheService\bin\PartialCacheService.dll
+C:\usertmp\711\Part2\PartialCacheService\bin\PartialCacheService.pdb
+C:\usertmp\711\Part2\PartialCacheService\obj\Debug\PartialCacheService.csprojResolveAssemblyReference.cache
+C:\usertmp\711\Part2\PartialCacheService\obj\Debug\PartialCacheService.dll
+C:\usertmp\711\Part2\PartialCacheService\obj\Debug\PartialCacheService.pdb

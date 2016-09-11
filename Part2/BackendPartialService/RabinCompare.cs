@@ -11,7 +11,7 @@ namespace BackendPartialService
     public static class RabinCompare
     {
 
-        public static List<Chunk> Compare(string file1, string file2, ulong boundary)
+        public static Chunk Compare(string file1, string file2, ulong boundary)
         {
             //file2 server file
             //file1 cache file
@@ -40,22 +40,23 @@ namespace BackendPartialService
             //Console.WriteLine("\n--------MATCHED CHUNKS--------\n");
             int matchCount = 0;
             //need to create list of byte[] and chunks
-            List<Chunk> chunks = new List<Chunk>();
+            Dictionary<string, byte[]> chunks = new Dictionary<string, byte[]>();
             foreach (byte[] s in listA)
             {
                 if (ContainsSequence(listB, s) >= 0)
                 {
                     //Console.WriteLine("{0:D4}<-->{1:D4}  (size:{2:D8} bytes)", i, ContainsSequence(listB, s), s.Length);
-                    Chunk temp = new BackendPartialService.Chunk(listB[ContainsSequence(listB, s)], i);
-                    chunks.Add(temp);
+                   
+                    chunks.Add(i.ToString(), listB[ContainsSequence(listB, s)]);
                     matchCount++;
                 }
                 else
+                {  }
                     //Console.WriteLine("{0:D4}    *     (size:{1:D8} bytes)", i, s.Length);
                 i++;
             }
 
-            return chunks;
+            return new  Chunk(chunks);
           //Console.WriteLine("\n------------------------------\n");
           //Console.WriteLine("Matched blockes {0} (out of {1})", matchCount, listA.Count);
           //Console.WriteLine("Time used to process file '{0}'\t:{1:f3} (sec)", new FileInfo(file1).Name, timeA / 1000.0);
@@ -69,7 +70,15 @@ namespace BackendPartialService
             ulong Q = 179424691; //A really large prime number.
             ulong D = 256;
             ulong pow = 1;
-            int windowSize = 48;
+            int windowSize = 0;
+            if (s.Length >= 48)
+            {
+               windowSize = 48;
+            }
+            else
+            {
+                windowSize = s.Length;
+            }
             for (int k = 1; k < windowSize; k++)
                 pow = (pow * D) % Q;
             ulong sig = 0;

@@ -142,7 +142,7 @@ namespace WindowsFormsApplication3
 
         public static string GetCacheLog()
         {
-            string path = "C:\\711\\Part1\\cache_log.txt";
+            string path = "C:\\usertmp\\711\\Part2\\cache_log.txt";
             if (File.Exists(path))
             {
 
@@ -162,7 +162,7 @@ namespace WindowsFormsApplication3
         }
         public static string[] GetAvailableFiles()
         {
-            string path = "C:\\711\\Part1\\cache";
+            string path = "C:\\usertmp\\711\\Part2\\cache";
             IEnumerable<string> files = Directory.GetFiles(path);
             string[] filenames = files.Select(x => Path.GetFileName(x)).ToArray();
             return filenames;

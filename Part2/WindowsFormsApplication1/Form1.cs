@@ -81,11 +81,11 @@ namespace WindowsFormsApplication1
         private void listBox_Click(object sender, EventArgs e)
         {
             //This gives us the item name we want to download!
-            //Extract the name and then send the request to http://localhost:8099/Service1.svc/DownloadFile/{filename}
+            //Extract the name and then send the request to http://localhost:8001/Service1.svc/DownloadFile/{filename}
             var item = listBox1.SelectedItem;
             //Set up the request
             WebRequest request = WebRequest.Create(
-                "http://localhost:8282/Service1.svc/DownloadFile/" + item);
+                "http://localhost:8001/Service1.svc/DownloadFile/" + item);
             request.Method = "GET";
 
             //Send request
@@ -107,7 +107,7 @@ namespace WindowsFormsApplication1
             //with the header of the form being that of the filename
             Form2 form2 = new Form2(result, filename);
             //before showing the result, write the file to disk
-            string path = "C:\\711\\downloaded\\"
+            string path = "C:\\usertmp\\711\\Part2\\downloaded\\"
                 + (string)filename;
             //TODO: Change implementation to use: WriteAllBytes
             System.IO.File.WriteAllText(path, result);

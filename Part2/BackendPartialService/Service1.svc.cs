@@ -9,6 +9,7 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.ServiceModel.Web;
 using System.Text;
+using System.Web.Script.Serialization;
 
 namespace BackendPartialService
 {
@@ -19,7 +20,8 @@ namespace BackendPartialService
       
         public List<string> GetAvailableFilenames()
         {
-            string path = "C:\\711\\Part2\\files";
+            string path = "C:\\usertmp\\711\\Part2\\files";
+            var pathh = System.Environment.CurrentDirectory;
             if (Directory.Exists(path))
             {
                 string[] availableFiles = Directory.GetFiles(path);
@@ -42,14 +44,14 @@ namespace BackendPartialService
         }
     
 
-        public Stream GetFileChunks(string filename, Stream s)
+        public String GetFileChunks(string filename, Stream s)
         {
             //This service receives the file from the cache
             //Then compares this file against the server's version
             //Then sends the missing chunks to the cache, which are then injected.
             int length = 0;
-            string path = "C:\\711\\Part2\\from_cache\\" + filename;
-            if (Directory.Exists("C:\\711\\Part2\\from_cache"))
+            string path = "C:\\usertmp\\711\\Part2\\from_cache\\" + filename;
+            if (Directory.Exists("C:\\usertmp\\711\\Part2\\from_cache"))
             {
                 using (FileStream writer = new FileStream(path, FileMode.Create))
                 {
@@ -63,14 +65,24 @@ namespace BackendPartialService
                 }
                 //File is written, now compare!
                 //Need to get List<Chunk> from RabinCompare.
-                List<Chunk> chunks = RabinCompare.Compare("C:\\711\\Part2\\from_cache\\" + filename,
-                    "C:\\711\\Part2\\files\\" + filename, 0x1FFF); //Error coming from here!
-                DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(List<Chunk>));
+                Chunk chunks = RabinCompare.Compare("C:\\usertmp\\711\\Part2\\from_cache\\" + filename,
+                    "C:\\usertmp\\711\\Part2\\files\\" + filename, 0x1FFF); //Error coming from here!
+                DataContractSerializerSettings settings =
+                    new DataContractSerializerSettings();
+                //settings.U = true;
+               DataContractSerializer ser = new DataContractSerializer(typeof(Chunk), settings);
+               // ser.UseSimpleDictionaryFormat = true;
                 MemoryStream stream = new MemoryStream();
                 ser.WriteObject(stream, chunks);
-                //Now send 
 
-                return stream;
+                //Now send 
+                //var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+                // var JsonObject = serializer.Serialize(chunks)
+                var json = new JavaScriptSerializer();
+                json.RegisterConverters(new JavaScriptConverter[] { new KeyValuePairJsonConverter() });
+                json.MaxJsonLength = 2147483644; ;
+                var jsonchunks = json.Serialize(chunks);
+                return jsonchunks;
             }
             else 
             {

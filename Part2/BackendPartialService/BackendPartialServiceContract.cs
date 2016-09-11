@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using System.Web.Script.Serialization;
 
 namespace BackendPartialService
 {
@@ -20,9 +23,11 @@ namespace BackendPartialService
 
         [OperationContract]
         [WebInvoke(Method = "POST",
-            UriTemplate = "GetFileChunks/{filename}")]
-        Stream GetFileChunks(string filename, Stream s);
-
+            UriTemplate = "GetFileChunks/{filename}",
+            ResponseFormat = WebMessageFormat.Xml,
+            RequestFormat = WebMessageFormat.Xml)]
+        //Stream GetFileChunks(string filename, Stream s);
+        string GetFileChunks(string filename, Stream s);
         // TODO: Add your service operations here
     }
 
@@ -48,18 +53,59 @@ namespace BackendPartialService
             set { stringValue = value; }
         }
     }
+    //[Serializable]
+    [KnownType(typeof(Chunk))]
     [DataContract]
     public class Chunk
     {
         [DataMember]
-        public byte[] byteArray { get; set; }
-        [DataMember]
-        public int chunkNo { get; set; }
-        public Chunk(byte[] bytes, int chunkNumber)
+        public Dictionary<string, byte[]> chunks { get; set; }
+        //public byte[] byteArray { get; set; }
+        
+       // public int chunkNo { get; set; }
+       
+        public Chunk(Dictionary<string, byte[]> chunks)
         {
-            byteArray = bytes;
-            chunkNo = chunkNumber;
+            this.chunks = chunks;
         }
 
+    }
+    public class KeyValuePairJsonConverter : JavaScriptConverter
+    {
+        public override object Deserialize(IDictionary<string, object> deserializedJSObjectDictionary, Type targetType, JavaScriptSerializer javaScriptSerializer)
+        {
+            Object targetTypeInstance = Activator.CreateInstance(targetType);
+
+            FieldInfo[] targetTypeFields = targetType.GetFields(BindingFlags.Public | BindingFlags.Instance);
+
+            foreach (FieldInfo fieldInfo in targetTypeFields)
+                fieldInfo.SetValue(targetTypeInstance, deserializedJSObjectDictionary[fieldInfo.Name]);
+
+            return targetTypeInstance;
+        }
+
+        public override IDictionary<string, object> Serialize(object obj, JavaScriptSerializer serializer)
+        {
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            Dictionary<string, byte[]> dictionaryInput = obj as Dictionary<string, byte[]>;
+
+            if (dictionaryInput == null)
+            {
+                throw new InvalidOperationException("Object must be of Dictionary<string, MyClass> type.");
+            }
+
+            foreach (KeyValuePair<string, byte[]> pair in dictionaryInput)
+                result.Add(pair.Key, pair.Value);
+
+            return result;
+        }
+
+        public override IEnumerable<Type> SupportedTypes
+        {
+            get
+            {
+                return new ReadOnlyCollection<Type>(new Type[] { typeof(Dictionary<string, byte[]>) });
+            }
+        }
     }
 }

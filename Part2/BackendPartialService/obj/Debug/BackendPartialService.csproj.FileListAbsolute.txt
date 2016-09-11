@@ -5,3 +5,15 @@ C:\711\Part2\BackendPartialService\bin\BackendPartialService.pdb
 C:\711\Part2\BackendPartialService\obj\Debug\BackendPartialService.dll
 C:\711\Part2\BackendPartialService\obj\Debug\BackendPartialService.pdb
 C:\711\Part2\BackendPartialService\obj\Debug\BackendPartialService.csprojResolveAssemblyReference.cache
+C:\Users\bfar697\Desktop\711\Part2\BackendPartialService\bin\BackendPartialService.dll.config
+C:\Users\bfar697\Desktop\711\Part2\BackendPartialService\bin\BackendPartialService.dll
+C:\Users\bfar697\Desktop\711\Part2\BackendPartialService\bin\BackendPartialService.pdb
+C:\Users\bfar697\Desktop\711\Part2\BackendPartialService\obj\Debug\BackendPartialService.csprojResolveAssemblyReference.cache
+C:\Users\bfar697\Desktop\711\Part2\BackendPartialService\obj\Debug\BackendPartialService.dll
+C:\Users\bfar697\Desktop\711\Part2\BackendPartialService\obj\Debug\BackendPartialService.pdb
+C:\usertmp\711\Part2\BackendPartialService\bin\BackendPartialService.dll.config
+C:\usertmp\711\Part2\BackendPartialService\bin\BackendPartialService.dll
+C:\usertmp\711\Part2\BackendPartialService\bin\BackendPartialService.pdb
+C:\usertmp\711\Part2\BackendPartialService\obj\Debug\BackendPartialService.csprojResolveAssemblyReference.cache
+C:\usertmp\711\Part2\BackendPartialService\obj\Debug\BackendPartialService.dll
+C:\usertmp\711\Part2\BackendPartialService\obj\Debug\BackendPartialService.pdb

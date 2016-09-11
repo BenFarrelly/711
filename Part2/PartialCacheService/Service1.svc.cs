@@ -9,6 +9,7 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.ServiceModel.Web;
 using System.Text;
+using System.Web.Script.Serialization;
 using System.Windows.Forms;
 
 namespace PartialCacheService
@@ -20,7 +21,7 @@ namespace PartialCacheService
         public Stream DownloadFile(string filename)
         {
             //MessageBox.Show("MAKING IT TO THE START");
-            string path = "C:\\711\\Part2\\cache\\" + filename;
+            string path = "C:\\usertmp\\711\\Part2\\cache\\" + filename;
             //Send the file to the server to receive the file chunks.
             FileInfo f = new FileInfo(path);
             if (File.Exists(path))
@@ -51,9 +52,23 @@ namespace PartialCacheService
                 //Get response from server
                 WebResponse response = request.GetResponse();
                 Stream responseStream = response.GetResponseStream();
-                DataContractJsonSerializer serializer =
-                    new DataContractJsonSerializer(typeof(List<Chunk>));
-                List<Chunk> chunks = (List<Chunk>)serializer.ReadObject(responseStream);
+                DataContractSerializerSettings settings =
+                    new DataContractSerializerSettings();
+                //settings.UseSimpleDictionaryFormat = true;
+                DataContractSerializer serializer =
+                    new DataContractSerializer(typeof(Chunk), settings);
+                var memStream = new MemoryStream();
+                responseStream.CopyTo(memStream);
+                memStream.Position = 0;
+                StreamReader readStream = new StreamReader(memStream);
+                var result = readStream.ReadToEnd();
+                var json = new JavaScriptSerializer();
+                json.RegisterConverters(new JavaScriptConverter[] { new KeyValuePairJsonConverter() });
+                json.MaxJsonLength = 2147483644;
+                var chunks = json.Deserialize<string, byte[]>(result);
+
+                //stream.Position = 0;
+              //  Chunk chunks = (Chunk)serializer.ReadObject(result);
                 //  StreamReader readStream = new StreamReader(responseStream);
                 // var result = readStream.ReadToEnd();
                 //Now get chunks and build up file.
@@ -87,7 +102,7 @@ namespace PartialCacheService
     {
         static void Main(string[] args)
         {
-            WebServiceHost host = new WebServiceHost(typeof(Service1), new Uri("http://localhost:8282/"));
+            WebServiceHost host = new WebServiceHost(typeof(Service1), new Uri("http://localhost:8001/"));
             ServiceEndpoint ep = host.AddServiceEndpoint(typeof(Service1), new WebHttpBinding(), "");
             try
             {
